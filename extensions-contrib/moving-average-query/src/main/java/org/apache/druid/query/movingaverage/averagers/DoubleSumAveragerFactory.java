@@ -21,6 +21,7 @@ package org.apache.druid.query.movingaverage.averagers;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.druid.segment.column.ValueType;
 
 public class DoubleSumAveragerFactory extends ComparableAveragerFactory<Double, Double>
 {
@@ -40,5 +41,11 @@ public class DoubleSumAveragerFactory extends ComparableAveragerFactory<Double, 
   public Averager<Double> createAverager()
   {
     return new DoubleSumAverager(numBuckets, name, fieldName, cycleSize);
+  }
+
+  @Override
+  public ValueType getType()
+  {
+    return ValueType.DOUBLE;
   }
 }

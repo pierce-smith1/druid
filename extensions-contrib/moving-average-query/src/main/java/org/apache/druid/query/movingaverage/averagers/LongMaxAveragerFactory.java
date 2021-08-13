@@ -21,6 +21,7 @@ package org.apache.druid.query.movingaverage.averagers;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.druid.segment.column.ValueType;
 
 public class LongMaxAveragerFactory extends ComparableAveragerFactory<Long, Long>
 {
@@ -39,5 +40,11 @@ public class LongMaxAveragerFactory extends ComparableAveragerFactory<Long, Long
   public Averager<Long> createAverager()
   {
     return new LongMaxAverager(numBuckets, name, fieldName, cycleSize);
+  }
+
+  @Override
+  public ValueType getType()
+  {
+    return ValueType.LONG;
   }
 }

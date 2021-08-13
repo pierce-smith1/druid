@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.apache.druid.data.input.MapBasedRow;
 import org.apache.druid.data.input.Row;
+import org.apache.druid.java.util.common.guava.Sequence;
 import org.apache.druid.query.QueryMetrics;
 import org.apache.druid.query.QueryRunner;
 import org.apache.druid.query.QuerySegmentWalker;
@@ -33,9 +34,11 @@ import org.apache.druid.query.QueryToolChest;
 import org.apache.druid.query.aggregation.AggregatorFactory;
 import org.apache.druid.query.aggregation.MetricManipulationFn;
 import org.apache.druid.query.movingaverage.averagers.AveragerFactory;
+import org.apache.druid.segment.column.RowSignature;
 import org.apache.druid.server.log.RequestLogger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -131,4 +134,36 @@ public class MovingAverageQueryToolChest extends QueryToolChest<Row, MovingAvera
     return Functions.identity();
   }
 
+  @Override
+  public RowSignature resultArraySignature(MovingAverageQuery query)
+  {
+    RowSignature.Builder builder = RowSignature.builder()
+            .addTimeColumn()
+            .addDimensions(query.getDimensions());
+
+    for (AveragerFactory<?, ?> averager : query.getAveragerSpecs()) {
+      builder.add(averager.getName(), averager.getType());
+    }
+
+    return builder.build();
+  }
+
+  @Override
+  public Sequence<Object[]> resultsAsArrays(MovingAverageQuery query, Sequence<Row> resultSequence)
+  {
+    final List<String> fields = resultArraySignature(query).getColumnNames();
+
+    return resultSequence.map(row -> {
+          Object[] result = new Object[fields.size()];
+
+          result[0] = row.getTimestamp().getMillis();
+
+          for (int i = 1; i < fields.size(); i++) {
+            result[i] = row.getRaw(fields.get(i));
+          }
+
+          return result;
+        }
+    );
+  }
 }

@@ -150,6 +150,8 @@ public class MovingAverageQuery extends BaseQuery<Row>
     Function<Sequence<ResultRow>, Sequence<ResultRow>> postProcFn = this.limitSpec.build(groupByQueryForLimitSpec);
 
     if (havingSpec != null) {
+      // lol
+      havingSpec.setQuery(groupByQueryForLimitSpec);
       postProcFn = Functions.compose(
           postProcFn,
           sequence -> Sequences.filter(sequence, MovingAverageQuery.this.havingSpec::eval)

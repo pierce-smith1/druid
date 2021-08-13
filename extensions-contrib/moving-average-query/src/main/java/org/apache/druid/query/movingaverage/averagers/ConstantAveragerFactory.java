@@ -21,6 +21,7 @@ package org.apache.druid.query.movingaverage.averagers;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.druid.segment.column.ValueType;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -97,5 +98,11 @@ public class ConstantAveragerFactory implements AveragerFactory<Float, Float>
   public Float finalizeComputation(Float val)
   {
     return val;
+  }
+
+  @Override
+  public ValueType getType()
+  {
+    return ValueType.FLOAT;
   }
 }

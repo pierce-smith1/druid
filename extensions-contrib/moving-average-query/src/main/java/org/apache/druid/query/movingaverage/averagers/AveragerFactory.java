@@ -21,6 +21,7 @@ package org.apache.druid.query.movingaverage.averagers;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.apache.druid.segment.column.ValueType;
 
 import java.util.Comparator;
 import java.util.List;
@@ -105,4 +106,6 @@ public interface AveragerFactory<R, F>
    * @return The finalized value.
    */
   F finalizeComputation(R val);
+
+  ValueType getType();
 }

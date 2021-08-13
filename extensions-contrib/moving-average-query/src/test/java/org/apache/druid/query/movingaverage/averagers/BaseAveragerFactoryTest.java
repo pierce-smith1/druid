@@ -19,6 +19,7 @@
 
 package org.apache.druid.query.movingaverage.averagers;
 
+import org.apache.druid.segment.column.ValueType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +44,12 @@ public class BaseAveragerFactoryTest
 
       @Override
       public Comparator<Long> getComparator()
+      {
+        return null;
+      }
+
+      @Override
+      public ValueType getType()
       {
         return null;
       }
