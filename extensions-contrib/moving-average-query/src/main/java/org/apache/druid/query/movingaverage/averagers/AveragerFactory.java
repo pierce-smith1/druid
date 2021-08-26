@@ -44,7 +44,9 @@ import java.util.List;
     @JsonSubTypes.Type(name = "longMeanNoNulls", value = LongMeanNoNullAveragerFactory.class),
     @JsonSubTypes.Type(name = "longSum", value = LongSumAveragerFactory.class),
     @JsonSubTypes.Type(name = "longMax", value = LongMaxAveragerFactory.class),
-    @JsonSubTypes.Type(name = "longMin", value = LongMinAveragerFactory.class)
+    @JsonSubTypes.Type(name = "longMin", value = LongMinAveragerFactory.class),
+    @JsonSubTypes.Type(name = "doubleLast", value = DoubleLastAveragerFactory.class),
+    @JsonSubTypes.Type(name = "doubleMeanExceptLast", value = DoubleMeanExceptLastAveragerFactory.class)
 })
 public interface AveragerFactory<R, F>
 {
@@ -102,7 +104,6 @@ public interface AveragerFactory<R, F>
    * Finalize result value.
    *
    * @param val the value to finalize.
-   *
    * @return The finalized value.
    */
   F finalizeComputation(R val);

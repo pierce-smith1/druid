@@ -49,11 +49,11 @@ public abstract class BaseAverager<I, R extends Object> implements Averager<R>
   int startFrom = 0;
 
   /**
-   * @param storageType    The class to use for storing intermediate values
-   * @param numBuckets     The number of buckets to include in the window being aggregated
-   * @param name           The name of the resulting metric
-   * @param fieldName      The field to extra from incoming rows and stored in the window cache
-   * @param cycleSize      Cycle group size. Used to calculate day-of-week option. Default=1 (single element in group).
+   * @param storageType The class to use for storing intermediate values
+   * @param numBuckets  The number of buckets to include in the window being aggregated
+   * @param name        The name of the resulting metric
+   * @param fieldName   The field to extra from incoming rows and stored in the window cache
+   * @param cycleSize   Cycle group size. Used to calculate day-of-week option. Default=1 (single element in group).
    */
   public BaseAverager(Class<I> storageType, int numBuckets, String name, String fieldName, int cycleSize)
   {
@@ -61,8 +61,7 @@ public abstract class BaseAverager<I, R extends Object> implements Averager<R>
     this.name = name;
     this.fieldName = fieldName;
     this.index = 0;
-    @SuppressWarnings("unchecked")
-    final I[] array = (I[]) Array.newInstance(storageType, numBuckets);
+    @SuppressWarnings("unchecked") final I[] array = (I[]) Array.newInstance(storageType, numBuckets);
     this.buckets = array;
     this.cycleSize = cycleSize;
   }
